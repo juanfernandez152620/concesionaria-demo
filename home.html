@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Rumbo Automotores · 0km, usados, plan de ahorro y financiación</title>
+  <meta name="description" content="Concesionario multimarca: 0km y usados con fotos reales, plan de ahorro, financiación, seguros y taller.">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='13' fill='%23111317'/%3E%3Cpath d='M14 36L22 12h4l8 24' fill='none' stroke='%23c8922f' stroke-width='3.4' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+  <div id="site-header"></div>
+  <main>
+    <section class="hero" aria-label="Promociones">
+      <div class="wrap"><div class="hero__track" id="heroTrack"></div><div class="hero__ctrl" id="heroDots"></div></div>
+    </section>
+
+    <section class="sec--tight" aria-label="Buscador">
+      <div class="wrap">
+        <form class="search" id="find" role="search"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg><input id="findQ" type="search" placeholder="Buscá marca o modelo" aria-label="Buscar vehículo"><button class="btn">Buscar</button></form>
+        <div class="chips" id="chips"></div>
+      </div>
+    </section>
+
+    <section class="sec--tight" aria-label="Accesos rápidos">
+      <div class="wrap"><nav class="shortcuts" id="shortcuts"></nav></div>
+    </section>
+
+    <section class="sec">
+      <div class="wrap">
+        <div class="head"><div><span class="kicker">Fotos reales de cada unidad</span><h2>Recién llegados</h2></div><a class="link" href="catalogo.html?cond=0km">Ver todos <svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a></div>
+        <div class="rail" id="fresh"></div>
+      </div>
+    </section>
+
+    <section class="sec sec--soft">
+      <div class="wrap">
+        <div class="head"><div><span class="kicker">Ofertas del mes</span><h2>Bonificaciones vigentes</h2></div><span class="timer" id="timer"></span></div>
+        <div class="rail" id="offers"></div>
+      </div>
+    </section>
+
+    <section class="sec">
+      <div class="wrap">
+        <div class="head"><div><span class="kicker">Peritados y con garantía</span><h2>Usados seleccionados</h2></div><a class="link" href="catalogo.html?cond=usado">Ver todos <svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a></div>
+        <div class="rail" id="used"></div>
+      </div>
+    </section>
+
+    <section class="sec sec--soft" id="servicios">
+      <div class="wrap">
+        <div class="head"><div><span class="kicker">Servicios</span><h2>Todo para tu auto, en un solo lugar</h2></div></div>
+        <div class="services" id="services"></div>
+      </div>
+    </section>
+
+    <section class="sec">
+      <div class="wrap">
+        <div class="head"><div><span class="kicker">Concesionario multimarca</span><h2>Marcas</h2></div></div>
+        <div class="brands" id="brands"></div>
+      </div>
+    </section>
+
+    <section class="sec sec--soft">
+      <div class="wrap">
+        <div class="head"><div><span class="kicker">Opiniones</span><h2>Lo que dicen nuestros clientes</h2></div><div class="rating"><b>4,8</b><span class="mut">/ 5 · +1.200</span></div></div>
+        <div class="rail rail--3" id="testi"></div>
+      </div>
+    </section>
+
+    <section class="sec" id="contacto">
+      <div class="wrap">
+        <div class="head"><div><span class="kicker">Contacto</span><h2>Visitanos</h2></div></div>
+        <div class="contact" id="contact"></div>
+      </div>
+    </section>
+  </main>
+  <div id="site-footer"></div>
+  <script src="assets/js/stock.js"></script>
+  <script src="assets/js/common.js"></script>
+  <script src="assets/js/site.js"></script>
+  <script>Site.home();</script>
+</body>
+</html>

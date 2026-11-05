@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Rumbo Automotores · Demo</title>
+  <meta name="description" content="Inicio de la demo: sitio web público y panel de administración de la concesionaria.">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='13' fill='%23111317'/%3E%3Cpath d='M14 36L22 12h4l8 24' fill='none' stroke='%23c8922f' stroke-width='3.4' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #111317; --txt: #2b2f36; --mut: #6b7079; --soft: #f5f5f3; --soft2: #ececea; --line: #e9e9e6;
+      --accent: #c8922f; --accent-d: #8a6418; --tint: #f8f1e2; --ok: #1b7f3b;
+      --font: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif; --display: 'Outfit', 'Inter', system-ui, sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    body { margin: 0; font: 400 16px/1.55 var(--font); color: var(--txt); background: #fff; -webkit-font-smoothing: antialiased; }
+    h1, h2, h3, p { margin: 0; }
+    h1, h2, h3 { font-family: var(--display); color: var(--ink); letter-spacing: -.02em; line-height: 1.1; }
+    a { color: inherit; }
+    img { max-width: 100%; display: block; }
+    .i { width: 18px; height: 18px; flex: none; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .wrap { width: min(1120px, 100% - 40px); margin-inline: auto; }
+
+    .top { display: flex; align-items: center; gap: 10px; padding: 18px 0; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); margin-right: auto; }
+    .brand svg { width: 36px; height: 36px; }
+    .brand b { display: block; font: 800 1.15rem/1 var(--display); letter-spacing: .08em; }
+    .brand small { display: block; font-size: .56rem; letter-spacing: .3em; color: var(--accent-d); font-weight: 700; margin-top: 3px; }
+    .tag { font-size: .74rem; font-weight: 600; padding: 5px 10px; border-radius: 999px; background: var(--tint); color: var(--accent-d); white-space: nowrap; }
+
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 48px; padding: 0 22px; border-radius: 999px; border: 0; background: var(--ink); color: #fff; font: 600 .95rem var(--font); text-decoration: none; cursor: pointer; white-space: nowrap; transition: background .2s, transform .15s; }
+    .btn:hover { background: #000; }
+    .btn:active { transform: scale(.98); }
+    .btn--light { background: #fff; color: var(--ink); }
+    .btn--light:hover { background: var(--soft); }
+    .btn--line { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--soft2); }
+    .btn--line:hover { background: var(--soft); }
+    .btn--acc { background: var(--accent); color: #1c1306; }
+    .btn--acc:hover { background: #b98429; }
+    .btn--sm { height: 40px; padding: 0 16px; font-size: .88rem; }
+
+    .intro { padding: 28px 0 26px; display: grid; gap: 10px; }
+    .intro h1 { font-size: clamp(2rem, 7vw, 3.2rem); max-width: 18ch; }
+    .intro p { color: var(--mut); font-size: 1.05rem; max-width: 60ch; }
+
+    .doors { display: grid; gap: 16px; }
+    @media (min-width: 860px) { .doors { grid-template-columns: 1fr 1fr; gap: 20px; } }
+    .door { border-radius: 24px; overflow: hidden; display: flex; flex-direction: column; background: var(--soft); min-width: 0; }
+    .door__media { position: relative; aspect-ratio: 16 / 10; overflow: hidden; background: #e7e6e2; }
+    .door__media img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s; }
+    .door:hover .door__media img { transform: scale(1.03); }
+    .door__media .badge { position: absolute; top: 14px; left: 14px; background: rgba(255, 255, 255, .95); color: var(--ink); font-size: .74rem; font-weight: 600; padding: 6px 11px; border-radius: 999px; }
+    .door__b { padding: 22px; display: grid; gap: 14px; flex: 1; align-content: start; }
+    .door h2 { font-size: 1.6rem; }
+    .door p { color: var(--mut); }
+    .door__cta { display: flex; gap: 10px; flex-wrap: wrap; }
+    .links { display: flex; flex-wrap: wrap; gap: 8px; }
+    .links a { display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 14px; border-radius: 999px; background: #fff; text-decoration: none; font-size: .86rem; font-weight: 500; color: var(--ink); border: 1px solid var(--line); }
+    .links a:hover { border-color: var(--ink); }
+    .links .i { width: 15px; height: 15px; color: var(--accent-d); }
+    /* mock del panel */
+    .door--admin { background: #15171c; }
+    .door--admin h2 { color: #fff; }
+    .door--admin p { color: #aab0ba; }
+    .door--admin .links a { background: #20232a; border-color: #2c3038; color: #fff; }
+    .door--admin .links a:hover { border-color: var(--accent); }
+    .door--admin .btn--line { color: #fff; box-shadow: inset 0 0 0 1.5px #3a3f48; }
+    .door--admin .btn--line:hover { background: #20232a; }
+    .mock { position: absolute; inset: 0; background: #1c1f25; display: grid; grid-template-columns: 22% 1fr; }
+    .mock__side { background: #111317; padding: 14px 10px; display: grid; gap: 8px; align-content: start; }
+    .mock__side i { display: block; height: 7px; border-radius: 4px; background: #2a2e36; }
+    .mock__side i:nth-child(3) { background: var(--accent); width: 80%; }
+    .mock__main { padding: 14px; display: grid; gap: 10px; grid-template-rows: auto auto 1fr; background: #f6f5f2; }
+    .mock__kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+    .mock__kpis span { background: #fff; border-radius: 6px; padding: 7px; display: grid; gap: 4px; }
+    .mock__kpis b { height: 5px; width: 60%; background: #d9d6cf; border-radius: 3px; }
+    .mock__kpis em { height: 9px; width: 80%; background: #14171c; border-radius: 3px; }
+    .mock__chart { background: #fff; border-radius: 8px; padding: 10px; display: flex; align-items: flex-end; gap: 5%; height: 100%; min-height: 60px; }
+    .mock__chart s { flex: 1; background: #2a78d6; border-radius: 3px 3px 0 0; }
+    .mock__cols { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+    .mock__cols span { background: #efece6; border-radius: 6px; padding: 5px; display: grid; gap: 4px; }
+    .mock__cols span i { height: 12px; background: #fff; border-radius: 4px; }
+
+    .stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 20px 0 0; }
+    @media (min-width: 860px) { .stats { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+    .stat { border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px; }
+    .stat small { color: var(--mut); font-size: .78rem; }
+    .stat b { display: block; font: 700 1.5rem var(--display); color: var(--ink); }
+
+    .present { margin: 20px 0 0; border-radius: 24px; background: var(--tint); padding: 22px; display: grid; gap: 14px; align-items: center; }
+    @media (min-width: 860px) { .present { grid-template-columns: 1fr auto; padding: 26px 30px; } }
+    .present h3 { font-size: 1.25rem; }
+    .present p { color: var(--accent-d); font-size: .95rem; margin-top: 4px; }
+    .present .btns { display: flex; gap: 10px; flex-wrap: wrap; }
+
+    .steps { margin: 36px 0 0; }
+    .steps h3 { font-size: 1.25rem; margin-bottom: 12px; }
+    .steps ol { margin: 0; padding: 0; list-style: none; counter-reset: s; display: grid; gap: 2px; }
+    .steps li { counter-increment: s; display: grid; grid-template-columns: 34px 1fr; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line); align-items: start; }
+    .steps li::before { content: counter(s); width: 28px; height: 28px; border-radius: 50%; background: var(--soft); display: grid; place-content: center; font-weight: 700; font-size: .84rem; color: var(--ink); }
+    .steps li b { color: var(--ink); }
+    .steps li a { color: var(--accent-d); font-weight: 600; text-decoration: none; white-space: nowrap; }
+    .steps li a:hover { text-decoration: underline; }
+
+    .foot { margin: 36px 0 0; padding: 22px 0 32px; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; gap: 10px 20px; align-items: center; font-size: .84rem; color: var(--mut); }
+    .foot button { background: none; border: 0; padding: 0; color: var(--ink); font: 600 .84rem var(--font); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+
+    /* ---------- modo presentación ---------- */
+    .stage { position: fixed; inset: 0; z-index: 50; background: #e9e8e4; display: none; flex-direction: column; }
+    .stage.on { display: flex; }
+    .stage__bar { flex: none; height: 58px; display: flex; align-items: center; gap: 8px; padding: 0 12px; background: #fff; border-bottom: 1px solid var(--line); }
+    .stage__bar .brand svg { width: 30px; height: 30px; }
+    .stage__bar .brand b { font-size: 1rem; }
+    .seg { display: inline-flex; background: var(--soft); border-radius: 999px; padding: 4px; gap: 2px; }
+    .seg button { border: 0; background: none; height: 34px; padding: 0 14px; border-radius: 999px; font: 500 .86rem var(--font); cursor: pointer; color: var(--mut); display: inline-flex; align-items: center; gap: 6px; }
+    .seg button.on { background: #fff; color: var(--ink); font-weight: 600; box-shadow: 0 1px 3px rgba(0, 0, 0, .1); }
+    .seg button .i { width: 16px; height: 16px; }
+    .ibtn { width: 40px; height: 40px; border-radius: 50%; border: 0; background: none; display: grid; place-content: center; cursor: pointer; color: var(--ink); text-decoration: none; flex: none; }
+    .ibtn:hover { background: var(--soft); }
+    .stage__panes { flex: 1; min-height: 0; display: grid; gap: 12px; padding: 12px; }
+    .stage[data-show="both"] .stage__panes { grid-template-columns: auto 1fr; }
+    .stage[data-show="site"] .pane--admin, .stage[data-show="admin"] .pane--site { display: none; }
+    .pane { min-width: 0; min-height: 0; display: flex; flex-direction: column; gap: 8px; }
+    .pane__h { display: flex; align-items: center; gap: 8px; font-size: .8rem; font-weight: 600; color: var(--mut); padding: 0 4px; }
+    .pane__h a { margin-left: auto; color: var(--mut); font-weight: 500; text-decoration: none; display: inline-flex; gap: 4px; align-items: center; }
+    .pane__h a:hover { color: var(--ink); }
+    .pane__h .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); }
+    .frame { flex: 1; min-height: 0; border: 0; width: 100%; background: #fff; border-radius: 16px; box-shadow: 0 10px 30px -18px rgba(0, 0, 0, .4); }
+    .pane--site.phone { align-items: center; }
+    .pane--site.phone .frame { width: 390px; max-width: 100%; flex: 1; border-radius: 34px; border: 10px solid #111317; }
+    .stage[data-show="both"] .pane--site:not(.phone) { width: 48vw; }
+    .stage__hint { display: none; font-size: .8rem; color: var(--mut); margin: 0 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    @media (min-width: 1200px) { .stage__hint { display: block; } }
+    .only-wide { display: none !important; }
+    @media (min-width: 960px) { .only-wide { display: inline-flex !important; } }
+    @media (max-width: 959px) { .stage[data-show="both"] .stage__panes { grid-template-columns: 1fr; } .stage[data-show="both"] .pane--admin { display: none; } .pane--site.phone .frame { width: 100%; border: 0; border-radius: 12px; } .stage__panes { padding: 8px; } .stage__bar .brand span { display: none; } }
+    .toast { position: fixed; z-index: 80; left: 50%; bottom: 24px; transform: translate(-50%, 20px); background: var(--ink); color: #fff; padding: 12px 18px; border-radius: 999px; opacity: 0; transition: .3s; pointer-events: none; font-size: .9rem; font-weight: 500; }
+    .toast.on { opacity: 1; transform: translate(-50%, 0); }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <a class="brand" href="index.html" aria-label="Inicio de la demo"><svg viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="13" fill="#111317"/><path d="M14 36L22 12h4l8 24" fill="none" stroke="#c8922f" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 17v4M24 25v4M24 33v3" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></svg><span><b>RUMBO</b><small>AUTOMOTORES</small></span></a>
+      <span class="tag">Demo del sistema</span>
+    </header>
+
+    <section class="intro">
+      <h1>Elegí por dónde empezar</h1>
+      <p>El sitio web que ven los clientes y el panel que usa la concesionaria están conectados: lo que se consulta en el sitio llega al CRM, y lo que se carga en el panel se publica en el sitio.</p>
+    </section>
+
+    <section class="doors">
+      <article class="door">
+        <div class="door__media"><img id="siteImg" src="assets/img/banners/chevrolet-hero-s10-1080.webp" alt="Vista del sitio web de la concesionaria"><span class="badge">Para clientes</span></div>
+        <div class="door__b">
+          <h2>Sitio web</h2>
+          <p>Catálogo de 0km y usados con fotos reales, simulador de crédito, plan de ahorro, seguros, tasación de usados, turnos de taller y autogestión de cuotas.</p>
+          <div class="door__cta"><a class="btn" href="home.html">Abrir sitio web<svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a></div>
+          <nav class="links" aria-label="Accesos al sitio" id="siteLinks"></nav>
+        </div>
+      </article>
+      <article class="door door--admin">
+        <div class="door__media" aria-hidden="true">
+          <div class="mock"><div class="mock__side"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="mock__main"><div class="mock__kpis"><span><b></b><em></em></span><span><b></b><em></em></span><span><b></b><em></em></span><span><b></b><em></em></span></div><div class="mock__chart"><s style="height:45%"></s><s style="height:60%"></s><s style="height:52%"></s><s style="height:70%"></s><s style="height:64%"></s><s style="height:88%"></s><s style="height:76%"></s><s style="height:95%"></s></div><div class="mock__cols"><span><i></i><i></i></span><span><i></i><i></i><i></i></span><span><i></i></span><span><i></i><i></i></span></div></div></div>
+          <span class="badge">Para la concesionaria</span>
+        </div>
+        <div class="door__b">
+          <h2>Panel de administración</h2>
+          <p>CRM de leads, clientes con estado financiero, ventas, financiación y cobranzas, plan de ahorro, seguros, taller, caja y reportes.</p>
+          <div class="door__cta"><a class="btn btn--acc" href="admin.html">Entrar al panel<svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12h15M13 6l6 6-6 6"/></svg></a></div>
+          <nav class="links" aria-label="Accesos al panel" id="adminLinks"></nav>
+        </div>
+      </article>
+    </section>
+
+    <section class="stats" id="stats" aria-label="Datos de la demo"></section>
+
+    <section class="present">
+      <div><h3>Modo presentación</h3><p>El sitio y el panel en una misma pantalla. Enviá una consulta desde el sitio y mirá cómo aparece al instante en el CRM.</p></div>
+      <div class="btns"><button class="btn" data-open="both">Ver los dos lado a lado</button><button class="btn btn--line" data-open="site">Sitio en celular</button></div>
+    </section>
+
+    <section class="steps">
+      <h3>Guion sugerido</h3>
+      <ol id="script"></ol>
+    </section>
+
+    <footer class="foot"><span>Datos ficticios de demostración, guardados en este navegador.</span><button id="reset">Reiniciar datos de la demo</button></footer>
+  </div>
+
+  <!-- modo presentación -->
+  <div class="stage" id="stage" data-show="both" role="dialog" aria-modal="true" aria-label="Modo presentación">
+    <div class="stage__bar">
+      <a class="brand" href="index.html" aria-label="Volver al inicio de la demo"><svg viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="13" fill="#111317"/><path d="M14 36L22 12h4l8 24" fill="none" stroke="#c8922f" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>RUMBO</b><small>DEMO</small></span></a>
+      <div class="seg" id="show"><button data-v="site">Sitio</button><button data-v="both" class="only-wide">Ambos</button><button data-v="admin">Panel</button></div>
+      <div class="seg only-wide" id="device"><button data-d="phone" class="on">Celular</button><button data-d="desktop">Escritorio</button></div>
+      <span class="stage__hint">Tip: enviá una consulta o un test drive desde el sitio y fijate en el CRM.</span>
+      <button class="ibtn" id="reload" aria-label="Recargar ambas vistas" title="Recargar"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 11a8 8 0 0 0-14.6-4.5L4 8M4 4v4h4M4 13a8 8 0 0 0 14.6 4.5L20 16M20 20v-4h-4"/></svg></button>
+      <button class="ibtn" id="close" aria-label="Salir del modo presentación" title="Salir"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <div class="stage__panes">
+      <div class="pane pane--site phone"><div class="pane__h"><span class="dot"></span>Sitio web<a href="home.html" target="_blank" rel="noopener">Abrir en pestaña ↗</a></div><iframe class="frame" id="fSite" title="Sitio web" loading="lazy"></iframe></div>
+      <div class="pane pane--admin"><div class="pane__h"><span class="dot"></span>Panel de administración<a href="admin.html" target="_blank" rel="noopener">Abrir en pestaña ↗</a></div><iframe class="frame" id="fAdmin" title="Panel de administración" loading="lazy"></iframe></div>
+    </div>
+  </div>
+  <div class="toast" id="toast" role="status"></div>
+
+  <script src="assets/js/stock.js"></script>
+  <script src="assets/js/common.js"></script>
+  <script>
+  (function () {
+    'use strict';
+    const { DB, Q, fmt, iso, today, icon, esc } = RB;
+    DB.load();
+    const $ = (s) => document.querySelector(s);
+    const toast = (m) => { const t = $('#toast'); t.textContent = m; t.classList.add('on'); clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove('on'), 2600); };
+
+    // foto real de una unidad para la tarjeta del sitio
+    const star = DB.data.vehicles.find((v) => v.photos && v.model === 'RAV4') || DB.data.vehicles.find((v) => v.photos);
+    if (star) $('#siteImg').src = Q.photos(star)[0].f;
+
+    // accesos directos
+    const gal = star ? star.id : 'V001';
+    $('#siteLinks').innerHTML = [['home.html', 'home', 'Inicio'], ['catalogo.html?cond=0km', 'car', 'Catálogo 0km'], ['catalogo.html?cond=usado', 'swap', 'Usados'], ['vehiculo.html?id=' + gal, 'camera', 'Ficha con galería'], ['mi-cuenta.html', 'user', 'Mi cuenta']]
+      .map(([h, ic, l]) => '<a href="' + h + '">' + icon(ic) + l + '</a>').join('');
+    $('#adminLinks').innerHTML = [['dashboard', 'home', 'Dashboard'], ['crm', 'funnel', 'CRM'], ['clientes', 'users', 'Clientes'], ['ventas/nueva', 'tag', 'Nueva venta'], ['cobranzas', 'card', 'Cobranzas'], ['seguros', 'shield', 'Seguros'], ['reportes', 'chart', 'Reportes']]
+      .map(([h, ic, l]) => '<a href="admin.html#/' + h + '">' + icon(ic) + l + '</a>').join('');
+
+    // datos en vivo
+    const stats = () => {
+      const d = DB.data, mk = iso(today()).slice(0, 7);
+      const cst = d.credits.map((c) => RB.Fin.creditStatus(c));
+      $('#stats').innerHTML = [
+        ['Vehículos publicados', Q.published().length],
+        ['Con fotos reales', d.vehicles.filter((v) => v.photos).length],
+        ['Leads nuevos', d.leads.filter((l) => l.etapa === 'nuevo').length],
+        ['Ventas del mes', d.sales.filter((s) => s.fecha.startsWith(mk) && s.estado !== 'anulada').length],
+        ['Créditos en mora', cst.filter((s) => s.estado === 'en_mora').length]
+      ].map(([l, n]) => '<div class="stat"><small>' + l + '</small><b>' + fmt.num(n) + '</b></div>').join('');
+    };
+    stats(); DB.onChange(stats);
+
+    // guion
+    const cli = DB.data.credits.map((c) => ({ c, s: RB.Fin.creditStatus(c) })).find((x) => x.s.estado === 'en_mora');
+    $('#script').innerHTML = [
+      ['Recorré el <b>sitio en el celular</b>: catálogo, filtros y la galería de fotos de una unidad.', 'vehiculo.html?id=' + gal, 'Abrir ficha'],
+      ['Desde la ficha, tocá <b>Consultar</b> y dejá tus datos (o agendá un test drive).', 'home.html', 'Ir al sitio'],
+      ['En el <b>CRM</b> aparece el lead nuevo, asignado a un asesor. Movelo por el pipeline.', 'admin.html#/crm', 'Abrir CRM'],
+      ['Armá una <b>venta</b> con financiación y seguro: se generan el crédito, la póliza y la caja.', 'admin.html#/ventas/nueva', 'Nueva venta'],
+      ['Mostrá el <b>estado financiero de un cliente</b>: score, capacidad de pago, mora y cuenta corriente.', cli ? 'admin.html#/clientes/' + cli.c.clientId + '?tab=finanzas' : 'admin.html#/clientes', 'Ver cliente'],
+      ['Cerrá con <b>Mi cuenta</b>: el cliente consulta sus cuotas con su DNI.', 'mi-cuenta.html', 'Abrir Mi cuenta']
+    ].map(([t, h, l]) => '<li><span>' + t + ' <a href="' + h + '">' + l + ' →</a></span></li>').join('');
+
+    // reiniciar
+    $('#reset').addEventListener('click', () => {
+      if (!confirm('Se van a borrar los cambios hechos en la demo y se regeneran los datos de ejemplo. ¿Continuar?')) return;
+      DB.reset(); stats(); toast('Datos de la demo reiniciados');
+    });
+
+    // modo presentación
+    const stage = $('#stage'), fSite = $('#fSite'), fAdmin = $('#fAdmin');
+    const wide = () => matchMedia('(min-width: 960px)').matches;
+    const setShow = (v) => {
+      if (v === 'both' && !wide()) v = 'site';
+      stage.dataset.show = v;
+      document.querySelectorAll('#show button').forEach((b) => b.classList.toggle('on', b.dataset.v === v));
+      if ((v === 'site' || v === 'both') && !fSite.src) fSite.src = 'home.html';
+      if ((v === 'admin' || v === 'both') && !fAdmin.src) fAdmin.src = 'admin.html';
+    };
+    const open = (v) => { stage.classList.add('on'); document.body.style.overflow = 'hidden'; setShow(v); if (location.hash !== '#presentar') history.replaceState(null, '', '#presentar'); };
+    const close = () => { stage.classList.remove('on'); document.body.style.overflow = ''; history.replaceState(null, '', location.pathname); stats(); };
+    document.querySelectorAll('[data-open]').forEach((b) => b.addEventListener('click', () => open(b.dataset.open)));
+    $('#show').addEventListener('click', (e) => { const b = e.target.closest('button'); if (b) setShow(b.dataset.v); });
+    $('#device').addEventListener('click', (e) => { const b = e.target.closest('button'); if (!b) return; document.querySelectorAll('#device button').forEach((x) => x.classList.toggle('on', x === b)); $('.pane--site').classList.toggle('phone', b.dataset.d === 'phone'); });
+    $('#reload').addEventListener('click', () => { if (fSite.src) fSite.contentWindow.location.reload(); if (fAdmin.src) fAdmin.contentWindow.location.reload(); });
+    $('#close').addEventListener('click', close);
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && stage.classList.contains('on')) close(); });
+    if (location.hash === '#presentar') open(wide() ? 'both' : 'site');
+  })();
+  </script>
+</body>
+</html>
